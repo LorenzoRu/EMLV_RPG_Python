@@ -16,7 +16,7 @@ while True:
     textEffect(f"{username}, veux-tu en savoir plus sur les classes ? \n[O]. Oui \n[N]. Non")
     answer = input().capitalize()
     if answer == "O":
-            while True:         
+            while True:
                 textEffect("Sur quelle classe veux-tu en savoir plus ? \n[Q]. Quitter")
                 for key, value in classesSelector().items():
                     textEffect(f"[{key}]. {value}")
@@ -27,15 +27,25 @@ while True:
                 elif a == "2":
                     textEffect("Chevalier")
                     textEffect("Le chevalier est un personnage qui utilise son épée pour combattre ses ennemis. Il est capable de se protéger avec son bouclier et de charger ses ennemis. Son sort ultime est un coup de grâce qui inflige de lourds dégâts à son ennemi.")
-                elif answer == "3":
+                elif a == "3":
                     textEffect("Assassin")
                     textEffect("L'assassin est un personnage qui utilise son agilité pour combattre ses ennemis. Il est capable de se rendre invisible et d'empoisonner ses ennemis. Son sort ultime est un assassinat qui inflige de lourds dégâts à son ennemi.")
-                elif answer == "4":
+                elif a == "4":
                     textEffect("Archer")
                     textEffect("L'archer est un personnage qui utilise son arc pour combattre ses ennemis. Il est capable de tirer des flèches et de les empoisonner. Son sort ultime est une flèche explosive qui inflige de lourds dégâts à son ennemi.")
                 elif a == "Q" or a == "q":
                     break
     elif answer == "N":
         break
+while True:
+    textEffect("Choisis ta classe :")
+    for key, value in classesSelector().items():
+        textEffect(f"[{key}]. {value}")
+        choice = int(input())
+    if choice in classesSelector():
+        textEffect(f"Tu as choisi {classesSelector()[choice]} !")
+        break
 
-textEffect("Choisis ta classe :")
+
+
+
