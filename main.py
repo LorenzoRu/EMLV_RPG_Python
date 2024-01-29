@@ -41,7 +41,7 @@ while True:
     textEffect("Choisis ta classe :")
     for key, value in classesSelector().items():
         textEffect(f"[{key}]. {value}")
-        choice = int(input())
+    choice = int(input())
     if choice in classesSelector():
         textEffect(f"Tu as choisi {classesSelector()[choice]} !")
         break
