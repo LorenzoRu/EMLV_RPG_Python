@@ -1,8 +1,8 @@
 import time
 from style import textEffect
-from callClasses import nameClasses, classesSelector
-
-
+import setup as setup
+from callClasses import nameClasses, classesSelector, connect_classes
+setup.init()
 textEffect("Bonjour Héro ! Quel est ton nom ? ")
 username = input()
 textEffect(f"Bienvenue {username} !")
@@ -10,15 +10,17 @@ time.sleep(0.5)
 textEffect("Il est temps de choisir ta classe !")
 time.sleep(0.5)
 textEffect("Voici les classes disponibles :")
-nameClasses()
+
+cursor = connect_classes()
+nameClasses(cursor)
 
 while True:
-    textEffect(f"{username}, veux-tu en savoir plus sur les classes ? \n[O]. Oui \n[N]. Non")
+    textEffect(f"{username}, veux-tu en savoir plus sur les classes ? \n[O]. Oui [N]. Non")
     answer = input().capitalize()
     if answer == "O":
             while True:
                 textEffect("Sur quelle classe veux-tu en savoir plus ? \n[Q]. Quitter")
-                for key, value in classesSelector().items():
+                for key, value in classesSelector(cursor).items():
                     textEffect(f"[{key}]. {value}")
                 a = input()
                 if a == "1":
@@ -39,11 +41,11 @@ while True:
         break
 while True:
     textEffect("Choisis ta classe :")
-    for key, value in classesSelector().items():
+    for key, value in classesSelector(cursor).items():
         textEffect(f"[{key}]. {value}")
     choice = int(input())
-    if choice in classesSelector():
-        textEffect(f"Tu as choisi {classesSelector()[choice]} !")
+    if choice in classesSelector(cursor):
+        textEffect(f"Tu as choisi {classesSelector(cursor)[choice]} !")
         break
 
 
