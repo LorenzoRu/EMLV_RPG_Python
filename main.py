@@ -1,7 +1,7 @@
 import time
 from style import textEffect
 import setup as setup
-from callClasses import nameClasses, classesSelector, connect_classes
+from dbInteraction import nameClasses, classesSelector, connect_classes, savePlayer, getPlayer
 setup.init()
 textEffect("Bonjour Héro ! Quel est ton nom ? ")
 username = input()
@@ -45,9 +45,11 @@ while True:
         textEffect(f"[{key}]. {value}")
     choice = int(input())
     if choice in classesSelector(cursor):
-        textEffect(f"Tu as choisi {classesSelector(cursor)[choice]} !")
+        savePlayer(username, classesSelector(cursor)[choice])
         break
 
+player = getPlayer(cursor)
+textEffect(f"Tu es {player[1]} et tu es {player[2]} !")
 
 
 
