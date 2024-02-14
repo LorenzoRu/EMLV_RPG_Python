@@ -11,7 +11,7 @@ def generate_monsters():
             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
             name TEXT UNIQUE,
             attack INTEGER,
-            mana INTEGER
+            pv INTEGER
         )
     """)
 
@@ -21,7 +21,11 @@ def generate_monsters():
         cursor.execute("SELECT * FROM monsters WHERE name=?", (monster,))
         result = cursor.fetchone()
         if result is None:
-            cursor.execute("INSERT INTO monsters(name, attack, mana) VALUES(?, ?, ?)", (monster, 100, 50)) 
+            cursor.execute("INSERT INTO monsters(name, attack, pv) VALUES(?, ?, ?)", ("Loup Démonique", 50, 100))
+            cursor.execute("INSERT INTO monsters(name, attack, pv) VALUES(?, ?, ?)", ("Gargouille", 10, 50))
+            cursor.execute("INSERT INTO monsters(name, attack, pv) VALUES(?, ?, ?)", ("Hydre", 7, 75))
+            cursor.execute("INSERT INTO monsters(name, attack, pv) VALUES(?, ?, ?)", ("Sphinx Noir", 5, 90))
+            
     # Sauvegarde (commit) des modifications
     connection.commit()
     connection.close()
