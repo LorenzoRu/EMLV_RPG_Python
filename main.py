@@ -49,7 +49,11 @@ while True:
         break
 
 player = getPlayer(cursor)
-textEffect(f"Tu es {player[1]} et tu es {player[2]} !")
+textEffect(f"{player[1]}, tu débute votre aventure dans le donjon, ton objectif est de térasser les 10 monstre qui l'habitent !")
+
+
+
+
 
 
 

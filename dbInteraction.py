@@ -7,11 +7,6 @@ def connect_classes():
     return cursor
     # Fontion pour afficher les classes
 
-def connect_player():
-    connection = sqlite3.connect('Database/player.db')
-    # Création d'un curseur pour exécuter des requêtes
-    cursor = connection.cursor()
-    return cursor
 
 def nameClasses(cursor):
     cursor.execute("SELECT * FROM classes")
@@ -40,5 +35,6 @@ def getPlayer(cursor):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM player")
     player = cursor.fetchone()
-    return player
     connection.close()
+    return player
+
