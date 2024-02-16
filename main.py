@@ -1,8 +1,10 @@
+import os
 import time
 from style import textEffect
 import setup as setup
-from dbInteraction import nameClasses, classesSelector, connect_classes, savePlayer, getPlayer
 setup.init()
+from dbInteraction import nameClasses, classesSelector, connect_classes, savePlayer, getPlayer
+
 textEffect("Bonjour Héro ! Quel est ton nom ? ")
 username = input()
 textEffect(f"Bienvenue {username} !")
@@ -50,8 +52,21 @@ while True:
 
 player = getPlayer(cursor)
 textEffect(f"{player[1]}, tu débute ton aventure dans le donjon, ton objectif est de térasser les 10 monstre qui l'habitent !")
-
-
+from fight import fight
+count = 0
+while count < 10:
+    result = fight()
+    if result == True:
+        count += 1
+        if count == 10:
+            textEffect("Félicitations, tu as réussi à térasser les 10 monstres et à sortir du donjon vivant !")
+            break
+        else:
+            textEffect(f"Tu as térassé un monstre, il en reste {10 - count} !")
+    elif result == False:
+        textEffect("Tu as été térassé par un monstre !")
+        break
+textEffect("Fin de l'aventure !")
 
 
 

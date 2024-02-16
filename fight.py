@@ -44,7 +44,7 @@ def list_stats():
     connection.close()
     return stats
 stats = list_stats()
-
+hpi_hero = stats[2]
 
 
 def update_stats():
@@ -70,6 +70,7 @@ def open_inventory():
         textEffect(f"[{item[0]}] {item[1]} : {item[2]}")
 
 def fight():
+    victory = None
     monster = random_monster()
     hp_hero = stats[2]
     attack_hero = stats[3]
@@ -90,9 +91,14 @@ def fight():
         textEffect("[2] Utiliser un objet")
         textEffect("[3] Fuir")
         choice = input()
+        #! Attaque
         if choice == "1":
-            print(f"Vous attaquez {monster[1]} !")
-            break
+            textEffect("Tu sors ton dé à 20 faces et tu lances le dé !")
+            atk = int(attack_hero)
+            damage = random.randint(25, atk)
+            textEffect(f"Tu infliges {damage} points de dégats à {monster[1]}")
+            hp_monster -= damage
+        #! Item
         elif choice == "2":
             open_inventory()
             textEffect("Quel objet veux-tu utiliser ?")
@@ -103,18 +109,35 @@ def fight():
                     item_found = True
                     while True:
                         if item_choice == "1":
-                            textEffect("Tu essayes de corrompre votre opposant avec votre fortune mais rien ne se passe !")
-                            textEffect("Quel objet veux-tu utiliser ?")
-                            item_choice = input()
+                            textEffect("Tu essayes de corrompre ton opposant avec votre fortune mais rien ne se passe !")
+                            break
                         elif item_choice == "2":
-                            print("2")
+                            if item[2] == 0:
+                                textEffect(f"Tu n'as plus {item[1]}")
+                                break
+                            else:
+                                if hp_hero == hpi_hero:
+                                    textEffect(f"Tu n'as pas besoin de {item[1]}")
+                                    break
+                                else:
+                                    textEffect(f"Tu utlilises {item[1]}, un, deux, trois, tu te soignes de 5 hp !")
+                                    connection = sqlite3.connect('Database/classes.db')
+                                    cusor = connection.cursor()
+                                    cusor.execute("UPDATE classes SET  hp = hp + 5 WHERE name=?", (player[2],))
+                                    connection.commit()
+                                    connection.close()
+                                    connection = sqlite3.connect('Database/inventory.db')
+                                    cursor = connection.cursor()
+                                    cursor.execute("UPDATE inventory SET quantity = quantity - 1 WHERE id=?", (item[0],))
+                                    connection.commit()
+                                    connection.close()
                             break
                         elif item_choice == "3": 
                             if item[2] == 0:
                                 textEffect(f"Tu n'as plus {item[1]}")
                                 break
                             else:
-                                textEffect(f"Vous utlilisez {item[1]}, en suivant les précaution de votre druide préféré votre attack augmente de 5")
+                                textEffect(f"Tu utlilises {item[1]}, en suivant les précaution de ton druide préféré ton attack augmente de 5")
                                 connection = sqlite3.connect('Database/classes.db')
                                 cusor = connection.cursor()
                                 cusor.execute("UPDATE classes SET  attack = attack + 5 WHERE name=?", (player[2],))
@@ -127,20 +150,64 @@ def fight():
                                 connection.close()
                             break
                         elif item_choice == "4":
-                            print("4")
+                            if item[2] == 0:
+                                textEffect(f"Tu n'as plus {item[1]}")
+                                break
+                            else:
+                                textEffect(f"Tu utlilises {item[1]}, en suivant les précaution de ton druide préféré tes pv augmentent de 5")
+                                connection = sqlite3.connect('Database/classes.db')
+                                cusor = connection.cursor()
+                                cusor.execute("UPDATE classes SET  hp = hp + 5 WHERE name=?", (player[2],))
+                                connection.commit()
+                                connection.close()
+                                connection = sqlite3.connect('Database/inventory.db')
+                                cursor = connection.cursor()
+                                cursor.execute("UPDATE inventory SET quantity = quantity - 1 WHERE id=?", (item[0],))
+                                connection.commit()
+                                connection.close()
                             break
                         else:
-                            textEffect("Quel objet voulez-vous utiliser ?")
                             textEffect("Tu es créatif mais je ne suis pas sûr que cette qualité t'aide")
-                            textEffect("Quel objet voulez-vous utiliser ?")
+                            textEffect("Quel objet veux-tu utiliser ?")
                             item_choice = input()
             if not item_found:
-                textEffect("Cet objet n'est pas dans votre inventaire !")
+                textEffect("Cet objet n'est pas dans ton inventaire !")
+        #! Fuite
         elif choice == "3":
-            print("Vous fuyez le combat...")
-            break
+            luck = random.randint(1, 10)
+            if luck <= 5:
+                textEffect("Tu t'enfuis comme un lâche !")
+                victory = None
+                break
+            else:
+                textEffect("Dans ta fuite, tu glisses sur une peau de banane et ton adversaire te ratrape !")
         else:
             textEffect("Nan sérieux pourtant c'est pas compliqué tu n'as que 3 choix !")
-    
-fight() 
+            #! Attaque du monstre
+        if hp_monster > 0:
+            atk = int(attack_monster)
+            damage = random.randint(3, atk)
+            textEffect(f"{monster[1]} passe à l'attaque et vous inflige {damage} points de dégâts.")
+            hp_hero -= damage
+            connection = sqlite3.connect('Database/classes.db')
+            cusor = connection.cursor()
+            cusor.execute("UPDATE classes SET  hp = hp - ? WHERE name=?", (damage, player[2]))
+            connection.commit()
+            connection.close() 
+        if hp_hero <= 0:
+            textEffect("Vous avez été vaincu. Game Over.")
+            victory = False
+            break
+      #! Vérification de la fin du combat
+        if hp_monster <= 0:
+            textEffect(f"Tu as vaincu {monster[1]} ! Tu gagne 10 pièces d'or.Elle ne sont pas spécialement belles mais elles sont à toi !")
+            connection = sqlite3.connect('Database/inventory.db')
+            cursor = connection.cursor()
+            cursor.execute("UPDATE inventory SET quantity = quantity + 10 WHERE name='Or'")
+            connection.commit()
+            connection.close()
+            victory = True
+            break
+    return victory
+
 

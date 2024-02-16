@@ -9,7 +9,7 @@ def generate_player():
     cursor.execute("""
      CREATE TABLE IF NOT EXISTS player(
         id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-        name TEXT UNIQUE,
+        name TEXT,
         class TEXT
      )
 """)

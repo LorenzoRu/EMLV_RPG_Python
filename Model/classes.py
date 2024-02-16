@@ -23,8 +23,8 @@ def generate_classes():
         cursor.execute("SELECT * FROM classes WHERE name=?", (classe,))
         check = cursor.fetchone()
         if check is None:
-            cursor.execute("INSERT INTO classes(name, hp, attack) VALUES(?, ?, ?)", ("Chevalier", 100, 50))
-            cursor.execute("INSERT INTO classes(name, hp, attack) VALUES(?, ?, ?)", ("Mage", 50, 100))
+            cursor.execute("INSERT INTO classes(name, hp, attack) VALUES(?, ?, ?)", ("Chevalier", 100, 500))
+            cursor.execute("INSERT INTO classes(name, hp, attack) VALUES(?, ?, ?)", ("Mage", 1, 100))
             cursor.execute("INSERT INTO classes(name, hp, attack) VALUES(?, ?, ?)", ("Assassin", 75, 75))
             cursor.execute("INSERT INTO classes(name, hp, attack) VALUES(?, ?, ?)", ("Archer", 75, 75))
     
