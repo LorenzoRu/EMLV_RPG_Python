@@ -16,4 +16,3 @@ def init():
     monsters_db.generate_monsters()
     invotory_db.generate_inventory()
     print(f"{GREEN}[INFO]{WIHTE} Les bases de données ont été créées !")
-init()

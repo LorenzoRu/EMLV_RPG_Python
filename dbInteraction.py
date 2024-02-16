@@ -7,7 +7,6 @@ def connect_classes():
     return cursor
     # Fontion pour afficher les classes
 
-
 def nameClasses(cursor):
     cursor.execute("SELECT * FROM classes")
     classes = cursor.fetchall()
