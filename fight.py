@@ -109,7 +109,7 @@ def fight():
                     item_found = True
                     while True:
                         if item_choice == "1":
-                            textEffect("Tu essayes de corrompre ton opposant avec votre fortune mais rien ne se passe !")
+                            textEffect("Tu essayes de corrompre ton opposant avec ta fortune mais rien ne se passe !")
                             break
                         elif item_choice == "2":
                             if item[2] == 0:
@@ -187,7 +187,7 @@ def fight():
         if hp_monster > 0:
             atk = int(attack_monster)
             damage = random.randint(3, atk)
-            textEffect(f"{monster[1]} passe à l'attaque et vous inflige {damage} points de dégâts.")
+            textEffect(f"{monster[1]} passe à l'attaque et t'inflige {damage} points de dégâts.  Ça pique !")
             hp_hero -= damage
             connection = sqlite3.connect('Database/classes.db')
             cusor = connection.cursor()
@@ -195,12 +195,12 @@ def fight():
             connection.commit()
             connection.close() 
         if hp_hero <= 0:
-            textEffect("Vous avez été vaincu. Game Over.")
+            textEffect("Tu as perdu tout tes point de vie. Game Over.")
             victory = False
             break
       #! Vérification de la fin du combat
         if hp_monster <= 0:
-            textEffect(f"Tu as vaincu {monster[1]} ! Tu gagne 10 pièces d'or.Elle ne sont pas spécialement belles mais elles sont à toi !")
+            textEffect(f"Tu as vaincu {monster[1]} ! Tu gagne 10 pièces d'or. Elle ne sont pas spécialement belles mais elles sont à toi !")
             connection = sqlite3.connect('Database/inventory.db')
             cursor = connection.cursor()
             cursor.execute("UPDATE inventory SET quantity = quantity + 10 WHERE name='Or'")
