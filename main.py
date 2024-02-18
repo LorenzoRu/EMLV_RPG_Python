@@ -66,6 +66,9 @@ while count < 10:
     elif result == False:
         textEffect("Tu as été térassé par un monstre !")
         break
+    elif result == None:
+        fight()
+
 textEffect("Fin de l'aventure !")
 
 
